@@ -133,12 +133,71 @@ CREATE TABLE roles (
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
--- TODO!
+INSERT INTO studios (name)
+VALUES ("Warner Bros.");
+INSERT INTO agents (name)
+VALUES
+("Creative Artists Agency"),
+("William Morris Endeavor"),
+("United Talent Agency");
+INSERT INTO movies (title, year_released, MPAA_rating, studio_id)
+VALUES
+("Batman Begins", 2005, "PG-13", 1),
+("The Dark Knight", 2008, "PG-13", 1),
+("The Dark Knight Rises", 2012, "PG-13", 1);
+INSERT INTO actors (first_name, last_name, agent_id)
+VALUES
+("Christian", "Bale", 1),
+("Michael", "Caine", 2),
+("Liam", "Neeson", 3),
+("Katie", "Holmes", 1),
+("Gary", "Oldman", 2),
+("Heath", "Ledger", 3),
+("Aaron", "Eckhart", 1),
+("Maggie", "Gyllenhaal", 2),
+("Tom", "Hardy", 3),
+("Joseph Gordon", "Levitt", 1),
+("Anne", "Hathaway", 2);
+UPDATE actors
+SET agent_id = 3
+WHERE first_name = "Anne"
+  AND last_name = "Hathaway";
+
+INSERT INTO roles (actor_id, movie_id, role_name)
+VALUES
+(1, 1, "Bruce Wayne"),
+(2, 1, "Alfred"),
+(3, 1, "Ra's Al Ghul"),
+(4, 1, "Rachel Dawes"),
+(5, 1, "Commissioner Gordon");
+
+INSERT INTO roles (actor_id, movie_id, role_name)
+VALUES
+(1, 2, "Bruce Wayne"),
+(6, 2, "Joker"),
+(7, 2, "Harvey Dent"),
+(2, 2, "Alfred"),
+(8, 2, "Rachel Dawes");
+
+INSERT INTO roles (actor_id, movie_id, role_name)
+VALUES
+(1, 3, "Bruce Wayne"),
+(5, 3, "Commissioner Gordon"),
+(9, 3, "Bane"),
+(10, 3, "John Blake"),
+(11, 3, "Selina Kyle");
+
 
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
 .print ""
+
+SELECT movies.title, movies.year_released, movies.MPAA_rating, studios.name
+FROM movies
+INNER JOIN studios
+ON movies.studio_id = studios.id;
+
 
 -- ***TODO!***
 -- The SQL statement for the movies output goes here.
@@ -155,6 +214,18 @@ CREATE TABLE roles (
 .print "Top Cast"
 .print "========"
 .print ""
+
+
+SELECT movies.title,
+       actors.first_name,
+       actors.last_name,
+       roles.role_name
+FROM roles
+INNER JOIN movies
+ON roles.movie_id = movies.id
+INNER JOIN actors
+ON roles.actor_id = actors.id;
+
 
 -- ***TODO!***
 -- The SQL statement for the cast output goes here.
@@ -183,6 +254,12 @@ CREATE TABLE roles (
 .print "Represented by agent"
 .print "===================="
 .print ""
+
+SELECT actors.first_name,
+       actors.last_name
+FROM actors
+INNER JOIN agents
+ON actors.agent_id = agents.id;
 
 -- ***TODO!***
 -- The SQL statement for the represented actor(s) output goes here.
